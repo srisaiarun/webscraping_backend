@@ -1,38 +1,177 @@
-.App {
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: url('C:\Users\HP\Desktop\livescraping\live-sports-ott\frontend\client\src\assets\cover.jpg') center/cover no-repeat; /* Homepage background */
+  color: #fff;
+}
+
+/* Optional overlay for better readability */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* adjust darkness */
+  z-index: -1;
+}
+
+/* Main container */
+.app-container {
+  padding: 30px 20px;
+  max-width: 900px;
+  margin: 0 auto;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Home buttons */
+.home-buttons button {
+  padding: 14px 32px;
+  margin: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #1f6feb;
   color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(31, 111, 235, 0.4);
 }
 
-.App-link {
-  color: #61dafb;
+.home-buttons button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(31, 111, 235, 0.6);
+  background: #0f52ba;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Match list */
+.match-list-container ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 25px;
+}
+
+.match-card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.6);
+  margin: 18px auto;
+  padding: 20px;
+  border-radius: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 500px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  z-index: 1;
+}
+
+/* Cover image */
+.match-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./assets/cover.jpg') center/cover no-repeat;
+  opacity: 0.15;
+  z-index: 0;
+  border-radius: 18px;
+}
+
+.match-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Team name */
+.team-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neon-glow 2s infinite alternate;
+  z-index: 1;
+}
+
+@keyframes neon-glow {
+  0% { text-shadow: 0 0 4px #ff512f, 0 0 8px #dd2476; }
+  50% { text-shadow: 0 0 8px #dd2476, 0 0 16px #ff512f; }
+  100% { text-shadow: 0 0 4px #ff512f, 0 0 8px #dd2476; }
+}
+
+/* Match status */
+.match-status {
+  font-weight: 600;
+  color: #ffffffaa;
+  z-index: 1;
+  font-size: 14px;
+}
+
+/* Match detail container */
+.match-detail-container {
+  max-width: 650px;
+  margin: 25px auto;
+  text-align: center;
+}
+
+/* Detail card */
+.match-detail-card {
+  background: rgba(0, 0, 0, 0.65);
+  margin: 20px auto;
+  padding: 30px 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+/* Team score */
+.team-score {
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0;
+}
+
+.score {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff512f;
+}
+
+/* Back button */
+.back-btn {
+  padding: 12px 26px;
+  margin-bottom: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  background: #dd2476;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(221, 36, 118, 0.4);
+}
+
+.back-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(221, 36, 118, 0.6);
+  background: #b81d61;
+}
+
+/* Loading */
+.loading {
+  font-size: 24px;
+  margin-top: 80px;
 }

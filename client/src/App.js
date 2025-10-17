@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
+import MatchList from "./components/MatchList";
+import MatchDetail from "./components/MatchDetail";
 
 function App() {
   const [liveMatches, setLiveMatches] = useState([]);
   const [upcomingMatches, setUpcomingMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState("home"); // "home", "live", "upcoming", "detail"
+  const [selectedMatch, setSelectedMatch] = useState(null);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        // Fetch live matches
-        const liveResponse = await fetch("http://127.0.0.1:8000/sports/live");
-        const liveData = await liveResponse.json();
+        const liveRes = await fetch("http://127.0.0.1:8000/sports/live");
+        const liveData = await liveRes.json();
 
-        // Fetch upcoming matches
-        const upcomingResponse = await fetch("http://127.0.0.1:8000/sports/upcoming");
-        const upcomingData = await upcomingResponse.json();
+        const upcomingRes = await fetch("http://127.0.0.1:8000/sports/upcoming");
+        const upcomingData = await upcomingRes.json();
 
         setLiveMatches(liveData);
         setUpcomingMatches(upcomingData);
@@ -28,44 +30,41 @@ function App() {
     fetchMatches();
   }, []);
 
+  const handleMatchClick = (match) => {
+    setSelectedMatch(match);
+    setView("detail");
+  };
+
+  const handleBack = () => {
+    setSelectedMatch(null);
+    setView("home");
+  };
+
+  if (loading) {
+    return <div className="loading">Loading matches...</div>;
+  }
+
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+    <div className="app-container">
       <h1>🏏 Live Sports Dashboard</h1>
 
-      {loading ? (
-        <p>Loading data from backend...</p>
-      ) : (
-        <>
-          <section>
-            <h2>🔥 Live Matches</h2>
-            {liveMatches.length > 0 ? (
-              <ul>
-                {liveMatches.map((match, i) => (
-                  <li key={i}>
-                    {match.team_a} vs {match.team_b} — {match.status.toUpperCase()}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No live matches currently.</p>
-            )}
-          </section>
+      {view === "home" && (
+        <div className="home-buttons">
+          <button onClick={() => setView("live")}>🔥 Live Matches</button>
+          <button onClick={() => setView("upcoming")}>⏳ Upcoming Matches</button>
+        </div>
+      )}
 
-          <section style={{ marginTop: "20px" }}>
-            <h2>⏳ Upcoming Matches</h2>
-            {upcomingMatches.length > 0 ? (
-              <ul>
-                {upcomingMatches.map((match, i) => (
-                  <li key={i}>
-                    {match.team_a} vs {match.team_b} — {match.status.toUpperCase()}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No upcoming matches found.</p>
-            )}
-          </section>
-        </>
+      {view === "live" && (
+        <MatchList matches={liveMatches} title="Live Matches" onClick={handleMatchClick} onBack={handleBack} />
+      )}
+
+      {view === "upcoming" && (
+        <MatchList matches={upcomingMatches} title="Upcoming Matches" onClick={handleMatchClick} onBack={handleBack} />
+      )}
+
+      {view === "detail" && selectedMatch && (
+        <MatchDetail match={selectedMatch} onBack={handleBack} />
       )}
     </div>
   );
